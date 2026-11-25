@@ -41,6 +41,27 @@ Ham kamera görüntüleri paylaşılmadan yalnızca model ağırlıkları merkez
 
 ---
 
+## 🧪 Kapsamlı Trafik Veri Artırımı (12-Tarifli Augmentation)
+
+Ortak 3-kaynaklı araç havuzunda (`8.810` train, `1.535` val, `2.397` test) doğrulama ve test kümelerine hiç dokunmadan yalnızca **`train`** kümesindeki nadir araç sınıflarını güçlendirmek için [src/data/augment_minority.py](src/data/augment_minority.py) ile **12 trafik kamerası odaklı augmentation tarifi** uygulanmaktadır:
+
+* **Geometrik & Kamera Açısı:** `hflip` (yatay ayna), `safe_zoom` (`1.12x` güvenli merkez yakınlaştırma + alan koruma filtresi), `mild_rotate_occ` (`±4.5°` kamera eğimi + araç kutularını %35'ten fazla örtmeyen yol kenarı kısmi engeli)
+* **Hava & Aydınlatma:** `night_lowlight` (gama karartma + ISO gürültüsü), `sun_glare` (güneş parlaması), `rain_streaks` (eğik yağmur çizgileri), `fog_haze` (sis/pus), `overpass_shadow` (üst geçit gölgesi)
+* **Sensör & Bileşik:** `motion_blur`, `cctv_degrade` (sensör gürültüsü + JPEG Q=45 sıkıştırma), `hsv_shift`, `combo_night_flip`
+* **Katmanlı Sınıf Dengeleme:** `motorcycle`/`bus` içeren karelere **+2 kopya**, yalnızca `truck` içeren karelere **+1 kopya**, `car`-only karelere **0 kopya**.
+
+![12 Tarifli Augmentation Önizlemesi](docs/augmentation_preview.jpg)
+
+| Sınıf | Ham Train Kutusu | **Artırılmış Train Kutusu** | Kazanım | `car:sınıf` Oranı (Önce → Sonra) |
+|---|---:|---:|---:|---|
+| **`car`** | 33.153 | **83.353** | 2.51× | — |
+| **`motorcycle`** | 3.497 | **10.488** | **3.00×** | `9.48:1 → 7.95:1` |
+| **`bus`** | 3.184 | **9.534** | **2.99×** | `10.41:1 → 8.74:1` |
+| **`truck`** | 6.667 | **14.725** | **2.21×** | `4.97:1 → 5.66:1` |
+| **Toplam Train Görsel** | **8.810** | **21.908** *(+13.098)* | **2.49×** | `val` (`1.535`) & `test` (`2.397`) dokunulmadı |
+
+---
+
 ## 📁 Dizin Yapısı
 
 ```text
@@ -56,6 +77,9 @@ fed-traffic-vision/
 │   │   ├── augment_minority.py             # Train-only nadir sınıf augmentation
 │   │   └── build_unified_dataset.py        # 3-kaynaklı orkestratör
 │   └── federated/                          # Faz 2: Flower FL istemci/sunucu modülleri
+├── docs/
+│   ├── augmentation_preview.jpg            # 12 tarifli trafik augmentation görsel önizlemesi
+│   └── augmentation_report.json            # Sınıf & oran bazlı augmentation raporu
 ├── notebooks/
 │   └── 01_centralized_3source_yolo11s.ipynb # Colab T4 3-kaynaklı eğitim notebook'u
 ├── test_samples/

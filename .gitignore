@@ -14,6 +14,7 @@ datasets/
 *_cache/
 DETRAC_annotations/
 unified_traffic_dataset/
+unified_traffic_dataset_augmented/
 wandb/
 
 # OS & IDE

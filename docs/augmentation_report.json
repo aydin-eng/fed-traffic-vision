@@ -1,0 +1,42 @@
+{
+  "dry_run": false,
+  "original_train_images": 8810,
+  "created_augmented_images": 13098,
+  "final_train_images": 21908,
+  "before_boxes": {
+    "car": 33153,
+    "motorcycle": 3497,
+    "bus": 3184,
+    "truck": 6667
+  },
+  "after_boxes": {
+    "car": 83353,
+    "motorcycle": 10488,
+    "bus": 9534,
+    "truck": 14725
+  },
+  "car_to_class_ratio_before": {
+    "motorcycle": 9.48,
+    "bus": 10.41,
+    "truck": 4.97
+  },
+  "car_to_class_ratio_after": {
+    "motorcycle": 7.95,
+    "bus": 8.74,
+    "truck": 5.66
+  },
+  "recipe_usage": {
+    "hflip": 8683,
+    "motion_blur": 410,
+    "mild_rotate_occ": 442,
+    "cctv_degrade": 418,
+    "safe_zoom": 416,
+    "sun_glare": 379,
+    "overpass_shadow": 401,
+    "night_lowlight": 387,
+    "combo_night_flip": 382,
+    "rain_streaks": 392,
+    "hsv_shift": 404,
+    "fog_haze": 384
+  }
+}
