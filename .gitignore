@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+
+# Environments
+.venv/
+venv/
+env/
+
+# Training & caches
+runs/
+datasets/
+*_cache/
+DETRAC_annotations/
+unified_traffic_dataset/
+wandb/
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Large data archives & weights
+*.tar
+*.tar.gz
+*.zip
+*.pt
+!detrac_xml_annotations.zip
